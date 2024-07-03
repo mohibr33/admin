@@ -1,0 +1,892 @@
+{
+    "common": {
+        "bytes": "{{value, bytes}}",
+        "bits": "{{value, bytes(bits: true)}}",
+        "bbytes": "{{value, bytes(binary: true)}}",
+        "bbits": "{{value, bytes(bits: true; binary: true)}}",
+        "byterate": "{{value, rate(bits: false)}}",
+        "bibyterate": "{{value, rate(bits: false; binary: true)}}",
+        "bitrate": "{{value, rate(bits: true)}}",
+        "bibitrate": "{{value, rate(bits: true; binary: true)}}",
+        "percent": "{{value, percent}}",
+        "number": "{{value, number}}",
+        "ms": "{{value, number}}",
+        "date": "{{value, date}}",
+        "relativeDate": "{{value, relativeDate}}",
+        "uptime": "{{value, uptime}}",
+        "months": "mo",
+        "days": "d",
+        "hours": "h",
+        "minutes": "m",
+        "seconds": "s"
+    },
+    "widget": {
+        "missing_type": "Липсваща приставка: {{type}}",
+        "api_error": "API Грешка",
+        "information": "Информация",
+        "status": "Статус",
+        "url": "URL",
+        "raw_error": "Raw Error",
+        "response_data": "Response Data"
+    },
+    "weather": {
+        "current": "Текущо местоположение",
+        "allow": "Разреши",
+        "updating": "Обновяване",
+        "wait": "Моля изчакайте"
+    },
+    "search": {
+        "placeholder": "Търсене…"
+    },
+    "resources": {
+        "cpu": "Процесор",
+        "mem": "Памет",
+        "total": "Общо",
+        "free": "Свободни",
+        "used": "Заети",
+        "load": "Натоварване",
+        "temp": "Температура",
+        "max": "Макс.",
+        "uptime": "Онлайн"
+    },
+    "unifi": {
+        "users": "Потребители",
+        "uptime": "Uptime",
+        "days": "Дни",
+        "wan": "WAN",
+        "lan": "LAN",
+        "wlan": "WLAN",
+        "devices": "Устройства",
+        "lan_devices": "LAN Устройства",
+        "wlan_devices": "WLAN Устройства",
+        "lan_users": "LAN Потребители",
+        "wlan_users": "WLAN Потребители",
+        "up": "Онлайн",
+        "down": "DOWN",
+        "wait": "Моля изчакайте",
+        "empty_data": "Subsystem status unknown"
+    },
+    "docker": {
+        "rx": "RX",
+        "tx": "TX",
+        "mem": "Памет",
+        "cpu": "Процесор",
+        "running": "Running",
+        "offline": "Изключен",
+        "error": "Грешка",
+        "unknown": "Неизв.",
+        "healthy": "Healthy",
+        "starting": "Starting",
+        "unhealthy": "Unhealthy",
+        "not_found": "Not Found",
+        "exited": "Exited",
+        "partial": "Partial"
+    },
+    "ping": {
+        "error": "Грешка",
+        "ping": "Ping",
+        "down": "Down",
+        "up": "Up",
+        "not_available": "Not Available"
+    },
+    "siteMonitor": {
+        "http_status": "HTTP status",
+        "error": "Грешка",
+        "response": "Response",
+        "down": "Down",
+        "up": "Up",
+        "not_available": "Not Available"
+    },
+    "emby": {
+        "playing": "Възпроизвежда",
+        "transcoding": "Конвертира",
+        "bitrate": "Bitrate",
+        "no_active": "Няма активни потоци",
+        "movies": "Филми",
+        "series": "Series",
+        "episodes": "Episodes",
+        "songs": "Songs"
+    },
+    "esphome": {
+        "offline": "Изключен",
+        "offline_alt": "Изключен",
+        "online": "Online",
+        "total": "Общо",
+        "unknown": "Неизв."
+    },
+    "evcc": {
+        "pv_power": "Production",
+        "battery_soc": "Battery",
+        "grid_power": "Grid",
+        "home_power": "Consumption",
+        "charge_power": "Charger",
+        "watt_hour": "Wh"
+    },
+    "flood": {
+        "download": "Download",
+        "upload": "Upload",
+        "leech": "Leech",
+        "seed": "Seed"
+    },
+    "freshrss": {
+        "subscriptions": "Subscriptions",
+        "unread": "Unread"
+    },
+    "fritzbox": {
+        "connectionStatus": "Статус",
+        "connectionStatusUnconfigured": "Unconfigured",
+        "connectionStatusConnecting": "Connecting",
+        "connectionStatusAuthenticating": "Authenticating",
+        "connectionStatusPendingDisconnect": "Pending Disconnect",
+        "connectionStatusDisconnecting": "Disconnecting",
+        "connectionStatusDisconnected": "Disconnected",
+        "connectionStatusConnected": "Connected",
+        "uptime": "Uptime",
+        "maxDown": "Max. Down",
+        "maxUp": "Max. Up",
+        "down": "Down",
+        "up": "Up",
+        "received": "Received",
+        "sent": "Sent",
+        "externalIPAddress": "Ext. IP"
+    },
+    "caddy": {
+        "upstreams": "Upstreams",
+        "requests": "Current requests",
+        "requests_failed": "Failed requests"
+    },
+    "changedetectionio": {
+        "totalObserved": "Total Observed",
+        "diffsDetected": "Diffs Detected"
+    },
+    "channelsdvrserver": {
+        "shows": "Shows",
+        "recordings": "Записи",
+        "scheduled": "Планирано",
+        "passes": "Passes"
+    },
+    "tautulli": {
+        "playing": "Възпроизвежда",
+        "transcoding": "Конвертира",
+        "bitrate": "Bitrate",
+        "no_active": "Няма активни потоци",
+        "plex_connection_error": "Провери връзка с Plex"
+    },
+    "omada": {
+        "connectedAp": "Connected APs",
+        "activeUser": "Активни устройства",
+        "alerts": "Предупреждения",
+        "connectedGateway": "Connected gateways",
+        "connectedSwitches": "Connected switches"
+    },
+    "nzbget": {
+        "rate": "Rate",
+        "remaining": "Остава",
+        "downloaded": "Изтеглени"
+    },
+    "plex": {
+        "streams": "Активни Потоци",
+        "albums": "Албуми",
+        "movies": "Филми",
+        "tv": "Сериали"
+    },
+    "sabnzbd": {
+        "rate": "Rate",
+        "queue": "Опашка",
+        "timeleft": "Оставащо Време"
+    },
+    "rutorrent": {
+        "active": "Акитивен",
+        "upload": "Upload",
+        "download": "Download"
+    },
+    "transmission": {
+        "download": "Download",
+        "upload": "Upload",
+        "leech": "Leech",
+        "seed": "Seed"
+    },
+    "qbittorrent": {
+        "download": "Download",
+        "upload": "Upload",
+        "leech": "Leech",
+        "seed": "Seed"
+    },
+    "qnap": {
+        "cpuUsage": "CPU Usage",
+        "memUsage": "MEM Usage",
+        "systemTempC": "System Temp",
+        "poolUsage": "Pool Usage",
+        "volumeUsage": "Volume Usage",
+        "invalid": "Невалидни"
+    },
+    "deluge": {
+        "download": "Download",
+        "upload": "Upload",
+        "leech": "Leech",
+        "seed": "Seed"
+    },
+    "downloadstation": {
+        "download": "Download",
+        "upload": "Upload",
+        "leech": "Leech",
+        "seed": "Seed"
+    },
+    "sonarr": {
+        "wanted": "Търсени",
+        "queued": "В изчакване",
+        "series": "Series",
+        "queue": "Опашка",
+        "unknown": "Неизв."
+    },
+    "radarr": {
+        "wanted": "Търсени",
+        "missing": "Липсващи",
+        "queued": "В изчакване",
+        "movies": "Филми",
+        "queue": "Опашка",
+        "unknown": "Неизв."
+    },
+    "lidarr": {
+        "wanted": "Търсени",
+        "queued": "В изчакване",
+        "artists": "Изпълнители"
+    },
+    "readarr": {
+        "wanted": "Търсени",
+        "queued": "В изчакване",
+        "books": "Книги"
+    },
+    "bazarr": {
+        "missingEpisodes": "Липсващи Епизоди",
+        "missingMovies": "Липсващи Филми"
+    },
+    "ombi": {
+        "pending": "Pending",
+        "approved": "Одобрен",
+        "available": "Наличен"
+    },
+    "jellyseerr": {
+        "pending": "Pending",
+        "approved": "Одобрен",
+        "available": "Наличен"
+    },
+    "overseerr": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "approved": "Одобрен",
+        "available": "Наличен"
+    },
+    "netalertx": {
+        "total": "Общо",
+        "connected": "Connected",
+        "new_devices": "New Devices",
+        "down_alerts": "Down Alerts"
+    },
+    "pihole": {
+        "queries": "Заявки",
+        "blocked": "Блокирани",
+        "blocked_percent": "Blocked %",
+        "gravity": "Gravity"
+    },
+    "adguard": {
+        "queries": "Заявки",
+        "blocked": "Блокирани",
+        "filtered": "Филтрирани",
+        "latency": "Latency"
+    },
+    "speedtest": {
+        "upload": "Upload",
+        "download": "Download",
+        "ping": "Ping"
+    },
+    "portainer": {
+        "running": "Running",
+        "stopped": "Спрян",
+        "total": "Общо"
+    },
+    "tailscale": {
+        "address": "Address",
+        "expires": "Expires",
+        "never": "Никога",
+        "last_seen": "Последно видян",
+        "now": "Сега",
+        "years": "{{number}}г",
+        "weeks": "{{number}}с",
+        "days": "{{number}}д",
+        "hours": "{{number}}ч",
+        "minutes": "{{number}}м",
+        "seconds": "{{number}}сек",
+        "ago": "преди {{value}}"
+    },
+    "tdarr": {
+        "queue": "Опашка",
+        "processed": "Processed",
+        "errored": "Errored",
+        "saved": "Saved"
+    },
+    "traefik": {
+        "routers": "Routers",
+        "services": "Services",
+        "middleware": "Middleware"
+    },
+    "navidrome": {
+        "nothing_streaming": "Няма активни потоци",
+        "please_wait": "Моля Изчакайте"
+    },
+    "npm": {
+        "enabled": "Активирано",
+        "disabled": "Деактивирано",
+        "total": "Общо"
+    },
+    "coinmarketcap": {
+        "configure": "Configure one or more crypto currencies to track",
+        "1hour": "1 Час",
+        "1day": "1 Ден",
+        "7days": "7 Дена",
+        "30days": "30 Days"
+    },
+    "gotify": {
+        "apps": "Applications",
+        "clients": "Clients",
+        "messages": "Messages"
+    },
+    "prowlarr": {
+        "enableIndexers": "Indexers",
+        "numberOfGrabs": "Grabs",
+        "numberOfQueries": "Заявки",
+        "numberOfFailGrabs": "Fail Grabs",
+        "numberOfFailQueries": "Fail Queries"
+    },
+    "jackett": {
+        "configured": "Configured",
+        "errored": "Errored"
+    },
+    "strelaysrv": {
+        "numActiveSessions": "Sessions",
+        "numConnections": "Connections",
+        "dataRelayed": "Relayed",
+        "transferRate": "Rate"
+    },
+    "mastodon": {
+        "user_count": "Потребители",
+        "status_count": "Posts",
+        "domain_count": "Domains"
+    },
+    "medusa": {
+        "wanted": "Търсени",
+        "queued": "В изчакване",
+        "series": "Series"
+    },
+    "minecraft": {
+        "players": "Играчи",
+        "version": "Version",
+        "status": "Статус",
+        "up": "Online",
+        "down": "Изключен"
+    },
+    "miniflux": {
+        "read": "Read",
+        "unread": "Unread"
+    },
+    "authentik": {
+        "users": "Потребители",
+        "loginsLast24H": "Logins (24h)",
+        "failedLoginsLast24H": "Failed Logins (24h)"
+    },
+    "proxmox": {
+        "mem": "Памет",
+        "cpu": "Процесор",
+        "lxc": "LXC",
+        "vms": "VMs"
+    },
+    "glances": {
+        "cpu": "Процесор",
+        "load": "Натоварване",
+        "wait": "Моля изчакайте",
+        "temp": "Температура",
+        "_temp": "Температура",
+        "warn": "Предупреждение",
+        "uptime": "Онлайн",
+        "total": "Общо",
+        "free": "Свободни",
+        "used": "Заети",
+        "days": "d",
+        "hours": "h",
+        "crit": "Crit",
+        "read": "Read",
+        "write": "Write",
+        "gpu": "GPU",
+        "mem": "Mem",
+        "swap": "Swap"
+    },
+    "quicklaunch": {
+        "bookmark": "Bookmark",
+        "service": "Service",
+        "search": "Търсене",
+        "custom": "Custom",
+        "visit": "Visit",
+        "url": "URL",
+        "searchsuggestion": "Suggestion"
+    },
+    "wmo": {
+        "0-day": "Слънчево",
+        "0-night": "Ясно",
+        "1-day": "Предимно Слънчево",
+        "1-night": "Предимно Ясно",
+        "2-day": "Частична Облачност",
+        "2-night": "Частична Облачност",
+        "3-day": "Cloudy",
+        "3-night": "Cloudy",
+        "45-day": "Foggy",
+        "45-night": "Foggy",
+        "48-day": "Foggy",
+        "48-night": "Foggy",
+        "51-day": "Light Drizzle",
+        "51-night": "Light Drizzle",
+        "53-day": "Drizzle",
+        "53-night": "Drizzle",
+        "55-day": "Heavy Drizzle",
+        "55-night": "Heavy Drizzle",
+        "56-day": "Light Freezing Drizzle",
+        "56-night": "Light Freezing Drizzle",
+        "57-day": "Freezing Drizzle",
+        "57-night": "Freezing Drizzle",
+        "61-day": "Light Rain",
+        "61-night": "Light Rain",
+        "63-day": "Rain",
+        "63-night": "Rain",
+        "65-day": "Heavy Rain",
+        "65-night": "Heavy Rain",
+        "66-day": "Freezing Rain",
+        "66-night": "Freezing Rain",
+        "67-day": "Freezing Rain",
+        "67-night": "Freezing Rain",
+        "71-day": "Light Snow",
+        "71-night": "Light Snow",
+        "73-day": "Snow",
+        "73-night": "Snow",
+        "75-day": "Heavy Snow",
+        "75-night": "Heavy Snow",
+        "77-day": "Snow Grains",
+        "77-night": "Snow Grains",
+        "80-day": "Light Showers",
+        "80-night": "Light Showers",
+        "81-day": "Showers",
+        "81-night": "Showers",
+        "82-day": "Heavy Showers",
+        "82-night": "Heavy Showers",
+        "85-day": "Snow Showers",
+        "85-night": "Snow Showers",
+        "86-day": "Snow Showers",
+        "86-night": "Snow Showers",
+        "95-day": "Thunderstorm",
+        "95-night": "Thunderstorm",
+        "96-day": "Thunderstorm With Hail",
+        "96-night": "Thunderstorm With Hail",
+        "99-day": "Thunderstorm With Hail",
+        "99-night": "Thunderstorm With Hail"
+    },
+    "homebridge": {
+        "available_update": "System",
+        "updates": "Updates",
+        "update_available": "Update Available",
+        "up_to_date": "Up to Date",
+        "child_bridges": "Child Bridges",
+        "child_bridges_status": "{{ok}}/{{total}}",
+        "up": "Up",
+        "pending": "Pending",
+        "down": "Down"
+    },
+    "healthchecks": {
+        "new": "Нови",
+        "up": "Up",
+        "grace": "Гратисен период",
+        "down": "Down",
+        "paused": "Paused",
+        "status": "Статус",
+        "last_ping": "Last Ping",
+        "never": "No pings yet"
+    },
+    "watchtower": {
+        "containers_scanned": "Scanned",
+        "containers_updated": "Updated",
+        "containers_failed": "Failed"
+    },
+    "autobrr": {
+        "approvedPushes": "Одобрен",
+        "rejectedPushes": "Rejected",
+        "filters": "Филтри",
+        "indexers": "Indexers"
+    },
+    "tubearchivist": {
+        "downloads": "Опашка",
+        "videos": "Видео",
+        "channels": "Канали",
+        "playlists": "Playlists"
+    },
+    "truenas": {
+        "load": "System Load",
+        "uptime": "Uptime",
+        "alerts": "Предупреждения"
+    },
+    "pyload": {
+        "speed": "Speed",
+        "active": "Акитивен",
+        "queue": "Опашка",
+        "total": "Общо"
+    },
+    "gluetun": {
+        "public_ip": "Public IP",
+        "region": "Регион",
+        "country": "Страна"
+    },
+    "hdhomerun": {
+        "channels": "Канали",
+        "hd": "HD",
+        "tunerCount": "Tuners",
+        "channelNumber": "Channel",
+        "channelNetwork": "Network",
+        "signalStrength": "Strength",
+        "signalQuality": "Quality",
+        "symbolQuality": "Quality",
+        "networkRate": "Bitrate",
+        "clientIP": "Client"
+    },
+    "scrutiny": {
+        "passed": "Passed",
+        "failed": "Failed",
+        "unknown": "Неизв."
+    },
+    "paperlessngx": {
+        "inbox": "Inbox",
+        "total": "Общо"
+    },
+    "peanut": {
+        "battery_charge": "Battery Charge",
+        "ups_load": "UPS Load",
+        "ups_status": "UPS Status",
+        "online": "Online",
+        "on_battery": "On Battery",
+        "low_battery": "Low Battery"
+    },
+    "nextdns": {
+        "wait": "Моля Изчакайте",
+        "no_devices": "No Device Data Received"
+    },
+    "mikrotik": {
+        "cpuLoad": "CPU Load",
+        "memoryUsed": "Memory Used",
+        "uptime": "Uptime",
+        "numberOfLeases": "Leases"
+    },
+    "xteve": {
+        "streams_all": "All Streams",
+        "streams_active": "Активни Потоци",
+        "streams_xepg": "XEPG Channels"
+    },
+    "opendtu": {
+        "yieldDay": "Today",
+        "absolutePower": "Power",
+        "relativePower": "Power %",
+        "limit": "Limit"
+    },
+    "opnsense": {
+        "cpu": "CPU Load",
+        "memory": "Active Memory",
+        "wanUpload": "WAN Upload",
+        "wanDownload": "WAN Download"
+    },
+    "moonraker": {
+        "printer_state": "Printer State",
+        "print_status": "Print Status",
+        "print_progress": "Progress",
+        "layers": "Layers"
+    },
+    "octoprint": {
+        "printer_state": "Статус",
+        "temp_tool": "Tool temp",
+        "temp_bed": "Bed temp",
+        "job_completion": "Completion"
+    },
+    "cloudflared": {
+        "origin_ip": "Origin IP",
+        "status": "Статус"
+    },
+    "pfsense": {
+        "load": "Load Avg",
+        "memory": "Mem Usage",
+        "wanStatus": "WAN Status",
+        "up": "Up",
+        "down": "Down",
+        "temp": "Температура",
+        "disk": "Disk Usage",
+        "wanIP": "WAN IP"
+    },
+    "proxmoxbackupserver": {
+        "datastore_usage": "Datastore",
+        "failed_tasks_24h": "Failed Tasks 24h",
+        "cpu_usage": "Процесор",
+        "memory_usage": "Memory"
+    },
+    "immich": {
+        "users": "Потребители",
+        "photos": "Photos",
+        "videos": "Видео",
+        "storage": "Storage"
+    },
+    "uptimekuma": {
+        "up": "Sites Up",
+        "down": "Sites Down",
+        "uptime": "Uptime",
+        "incident": "Incident",
+        "m": "m"
+    },
+    "atsumeru": {
+        "series": "Series",
+        "archives": "Archives",
+        "chapters": "Chapters",
+        "categories": "Categories"
+    },
+    "komga": {
+        "libraries": "Libraries",
+        "series": "Series",
+        "books": "Книги"
+    },
+    "diskstation": {
+        "days": "Дни",
+        "uptime": "Uptime",
+        "volumeAvailable": "Наличен"
+    },
+    "mylar": {
+        "series": "Series",
+        "issues": "Issues",
+        "wanted": "Търсени"
+    },
+    "photoprism": {
+        "albums": "Албуми",
+        "photos": "Photos",
+        "videos": "Видео",
+        "people": "People"
+    },
+    "fileflows": {
+        "queue": "Опашка",
+        "processing": "Processing",
+        "processed": "Processed",
+        "time": "Time"
+    },
+    "grafana": {
+        "dashboards": "Dashboards",
+        "datasources": "Data Sources",
+        "totalalerts": "Total Alerts",
+        "alertstriggered": "Alerts Triggered"
+    },
+    "nextcloud": {
+        "cpuload": "Cpu Load",
+        "memoryusage": "Memory Usage",
+        "freespace": "Free Space",
+        "activeusers": "Активни потребители",
+        "numfiles": "Файлове",
+        "numshares": "Споделени записи"
+    },
+    "kopia": {
+        "status": "Статус",
+        "size": "Размер",
+        "lastrun": "Last Run",
+        "nextrun": "Next Run",
+        "failed": "Failed"
+    },
+    "unmanic": {
+        "active_workers": "Active Workers",
+        "total_workers": "Total Workers",
+        "records_total": "Queue Length"
+    },
+    "pterodactyl": {
+        "servers": "Servers",
+        "nodes": "Nodes"
+    },
+    "prometheus": {
+        "targets_up": "Targets Up",
+        "targets_down": "Targets Down",
+        "targets_total": "Total Targets"
+    },
+    "gatus": {
+        "up": "Sites Up",
+        "down": "Sites Down",
+        "uptime": "Uptime"
+    },
+    "ghostfolio": {
+        "gross_percent_today": "Today",
+        "gross_percent_1y": "One year",
+        "gross_percent_max": "All time"
+    },
+    "audiobookshelf": {
+        "podcasts": "Podcasts",
+        "books": "Книги",
+        "podcastsDuration": "Продължителност",
+        "booksDuration": "Продължителност"
+    },
+    "homeassistant": {
+        "people_home": "People Home",
+        "lights_on": "Lights On",
+        "switches_on": "Switches On"
+    },
+    "whatsupdocker": {
+        "monitoring": "Monitoring",
+        "updates": "Updates"
+    },
+    "calibreweb": {
+        "books": "Книги",
+        "authors": "Authors",
+        "categories": "Categories",
+        "series": "Series"
+    },
+    "jdownloader": {
+        "downloadCount": "Опашка",
+        "downloadBytesRemaining": "Остава",
+        "downloadTotalBytes": "Размер",
+        "downloadSpeed": "Speed"
+    },
+    "kavita": {
+        "seriesCount": "Series",
+        "totalFiles": "Файлове"
+    },
+    "azuredevops": {
+        "result": "Result",
+        "status": "Статус",
+        "buildId": "Build ID",
+        "succeeded": "Succeeded",
+        "notStarted": "Not Started",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "inProgress": "In Progress",
+        "totalPrs": "Total PRs",
+        "myPrs": "My PRs",
+        "approved": "Одобрен"
+    },
+    "gamedig": {
+        "status": "Статус",
+        "online": "Online",
+        "offline": "Изключен",
+        "name": "Name",
+        "map": "Карта",
+        "currentPlayers": "Текущи играчи",
+        "players": "Играчи",
+        "maxPlayers": "Максимален брой играчи",
+        "bots": "Ботове",
+        "ping": "Ping"
+    },
+    "urbackup": {
+        "ok": "ОК",
+        "errored": "Грешки",
+        "noRecent": "Out of Date",
+        "totalUsed": "Used Storage"
+    },
+    "mealie": {
+        "recipes": "Рецепти",
+        "users": "Потребители",
+        "categories": "Categories",
+        "tags": "Тагове"
+    },
+    "openmediavault": {
+        "downloading": "Downloading",
+        "total": "Общо",
+        "running": "Running",
+        "stopped": "Спрян",
+        "passed": "Passed",
+        "failed": "Failed"
+    },
+    "openwrt": {
+        "uptime": "Uptime",
+        "cpuLoad": "CPU Load Avg (5m)",
+        "up": "Up",
+        "down": "Down",
+        "bytesTx": "Transmitted",
+        "bytesRx": "Received"
+    },
+    "uptimerobot": {
+        "status": "Статус",
+        "uptime": "Uptime",
+        "lastDown": "Last Downtime",
+        "downDuration": "Downtime Duration",
+        "sitesUp": "Sites Up",
+        "sitesDown": "Sites Down",
+        "paused": "Paused",
+        "notyetchecked": "Not Yet Checked",
+        "up": "Up",
+        "seemsdown": "Seems Down",
+        "down": "Down",
+        "unknown": "Неизв."
+    },
+    "calendar": {
+        "inCinemas": "In cinemas",
+        "physicalRelease": "Physical release",
+        "digitalRelease": "Digital release",
+        "noEventsToday": "Няма събития за днес!",
+        "noEventsFound": "Няма намерени събития"
+    },
+    "romm": {
+        "platforms": "Platforms",
+        "totalRoms": "Total ROMs"
+    },
+    "netdata": {
+        "warnings": "Warnings",
+        "criticals": "Criticals"
+    },
+    "plantit": {
+        "events": "Events",
+        "plants": "Plants",
+        "photos": "Photos",
+        "species": "Species"
+    },
+    "gitea": {
+        "notifications": "Notifications",
+        "issues": "Issues",
+        "pulls": "Pull Requests"
+    },
+    "stash": {
+        "scenes": "Scenes",
+        "scenesPlayed": "Scenes Played",
+        "playCount": "Total Plays",
+        "playDuration": "Time Watched",
+        "sceneSize": "Scenes Size",
+        "sceneDuration": "Scenes Duration",
+        "images": "Images",
+        "imageSize": "Images Size",
+        "galleries": "Galleries",
+        "performers": "Performers",
+        "studios": "Studios",
+        "movies": "Филми",
+        "tags": "Тагове",
+        "oCount": "O Count"
+    },
+    "tandoor": {
+        "users": "Потребители",
+        "recipes": "Рецепти",
+        "keywords": "Keywords"
+    },
+    "homebox": {
+        "items": "Items",
+        "totalWithWarranty": "With Warranty",
+        "locations": "Locations",
+        "labels": "Labels",
+        "users": "Потребители",
+        "totalValue": "Total Value"
+    },
+    "crowdsec": {
+        "alerts": "Предупреждения",
+        "bans": "Bans"
+    },
+    "wgeasy": {
+        "connected": "Connected",
+        "enabled": "Активирано",
+        "disabled": "Деактивирано",
+        "total": "Общо"
+    },
+    "swagdashboard": {
+        "proxied": "Proxied",
+        "auth": "With Auth",
+        "outdated": "Outdated",
+        "banned": "Banned"
+    }
+}

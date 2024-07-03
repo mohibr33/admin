@@ -1,0 +1,25 @@
+{
+  "extends": ["airbnb", "next/core-web-vitals", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "import/no-cycle": [
+      "error",
+      {
+        "maxDepth": 1
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}
