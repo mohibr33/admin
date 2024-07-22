@@ -1,23 +1,22 @@
-import React, { useEffect } from 'react'
-import { useAuth } from './context/AuthContext'
-import { useRouter } from 'next/router'
+import React, { useEffect } from 'react';
+import { useAuth } from './context/AuthContext';
+import { useRouter } from 'next/router';
 
-const ProtectedRoute = ({children}) => {
+const ProtectedRoute = ({ children }) => {
+const { user, loading } = useAuth();
+const router = useRouter();
 
+useEffect(() => {
+    if (!loading && !user) {
+     router.push('/signin');
+    }
+}, [loading, user, router]);
 
-    const {user} = useAuth()
-    const router = useRouter()
-
-    useEffect(()=>{
-        if(!user){
-            router.push('/signin')
-        }
-    },[router,user])
-  return (
-    <>
-   {user? children : null}
-    </>
-  )
+if (loading) {
+    return <div>Loading...</div>; // Optional: Add a loading spinner or any other loading indicator.
 }
 
-export default ProtectedRoute
+return user ? <>{children}</> : null;
+};
+
+export default ProtectedRoute;
