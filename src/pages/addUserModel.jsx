@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Dialog } from '@headlessui/react';
+import axios from 'axios';
 
 const AddUserButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ const AddUserButton = () => {
   const handleAddUser = useCallback(async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/addinguser", formData);
+      const res = await axios.post("http://192.168.123.186:8080/addinguser", formData);
       if (res.status === 201) {
         console.log('User added successfully');
         handleCloseModal();
