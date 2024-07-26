@@ -2,14 +2,15 @@ import { useState, useEffect, Fragment, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 import { FiSearch } from "react-icons/fi";
 import { SiDuckduckgo, SiMicrosoftbing, SiGoogle, SiBaidu, SiBrave } from "react-icons/si";
-import { Listbox, Transition, Combobox } from "@headlessui/react";
-import classNames from "classnames";
+import { Transition, Dialog } from "@headlessui/react";
 
-import ContainerForm from "../widget/container_form";
-import Raw from "../widget/raw";
 import { useAuth } from "pages/context/AuthContext";
 import { useRouter } from "next/router";
-import AddUserButton from "pages/addUserModel";
+import { LiaUserEditSolid } from "react-icons/lia";
+import { AiOutlineLogout } from "react-icons/ai";
+import { IoPersonAddSharp } from "react-icons/io5";
+import axios from "axios";
+
 
 export const searchProviders = {
   google: {
@@ -72,14 +73,6 @@ export function getStoredProvider() {
 }
 
 export default function Search({ options }) {
-  const { logout } = useAuth();
-  const router = useRouter();
- 
- 
-
-  
-
-
 
 
   const { t } = useTranslation();
@@ -163,144 +156,381 @@ export default function Search({ options }) {
     localStorage.setItem(localStorageKey, provider.name);
   };
 
+
+
+
+
+  const [showModal, setShowModal] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [editingUser, setEditingUser] = useState(null);
+  const [formData, setFormData] = useState({
+    id: "",
+    username: "",
+    email: "",
+    role: "0",
+    password: ""
+  });
+
+  const [showUsersModal, setShowUsersModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { logout } = useAuth();
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setFormData({ id: "", username: "", email: "", role: "0", password: "" });
+    setEditingUser(null);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleAddUser = useCallback(async (e) => {
+    e.preventDefault();
+
+    if (editingUser) {
+      try {
+        const response = await fetch(`http://192.168.123.186:8080/update/${editingUser.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update user: ${response.statusText}`);
+        }
+
+        const updatedUser = await response.json();
+
+        // Create a new user array with the updated user
+        const updatedUsers = [...users.filter(user => user.id !== editingUser.id), updatedUser];
+        setUsers(updatedUsers);
+
+        setEditingUser(null);
+      } catch (error) {
+        console.error("Failed to update user", error);
+      }
+    } else {
+      try {
+        const { id, ...newUserFormData } = formData; // Remove 'id' from formData
+        console.log('Sending new user data:', newUserFormData); // Log the data being sent
+        console.log('Sending new user data:', formData); // Log the data being sent
+  
+        const response = await fetch('http://192.168.123.186:8080/addinguser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newUserFormData),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Failed to add user: ${response.statusText}`);
+        }
+  
+        const responseText = await response.text();
+        console.log(responseText); // Log the server's plain text response
+        
+        await fetchUsers(); 
+        alert(responseText);
+      } catch (error) {
+        console.error("Failed to add user", error);
+      }
+    }
+
+    handleCloseModal();
+  }, [formData, editingUser, users]);
+
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setFormData(user);
+    setShowModal(true);
+  };
+
+  const handleDeleteUser = async (user) => {
+    try {
+      console.log(`Attempting to delete user with ID: ${user.id}`);
+      const response = await fetch(`http://192.168.123.186:8080/deluser/${user.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete user: ${response.statusText}`);
+      }
+
+      const responseText = await response.text(); // Use text() instead of json()
+      console.log('Server response:', responseText);
+      setUsers(users.filter(u => u.id !== user.id));
+      console.log('User deleted successfully');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      // Handle error, e.g., show an error message to the user
+    }
+  };
+
+
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('http://192.168.123.186:8080/allusers');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch users: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setUsers(data);
+      // console.log("users is here",data);
+    } catch (error) {
+      setError("Failed to fetch users");
+      console.error(error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [formData, editingUser, setUsers]);
+
+  const sessionLoggedUser = sessionStorage.getItem('user');
+  const user = JSON.parse(sessionLoggedUser);
+
+
   return (
     <>
-      {/* <ContainerForm options={options} additionalClassNames="grow information-widget-search">
-      <Raw>
-        <div className="flex-col relative h-8 my-4 min-w-fit z-20">
-          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none w-full text-theme-800 dark:text-white" />
-          <Combobox value={query}>
-            <Combobox.Input
-              type="text"
-              className="
-              overflow-hidden w-full h-full rounded-md
-              text-xs text-theme-900 dark:text-white
-              placeholder-theme-900 dark:placeholder-white/80
-              bg-white/50 dark:bg-white/10
-              focus:ring-theme-500 dark:focus:ring-white/50
-              focus:border-theme-500 dark:focus:border-white/50
-              border border-theme-300 dark:border-theme-200/50"
-              placeholder={t("search.placeholder")}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
-              required
-              autoCapitalize="off"
-              autoCorrect="off"
-              autoComplete="off"
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus={options.focus}
-              onBlur={(e) => e.preventDefault()}
-              onKeyDown={handleSearchKeyDown}
-            />
-            <Listbox
-              as="div"
-              value={selectedProvider}
-              onChange={onChangeProvider}
-              className="relative text-left"
-              disabled={availableProviderIds?.length === 1}
-            >
-              <div>
-                <Listbox.Button
-                  className="
-                  absolute right-0.5 bottom-0.5 rounded-r-md px-4 py-2 border-1
-                  text-white font-medium text-sm
-                  bg-theme-600/40 dark:bg-white/10
-                  focus:ring-theme-500 dark:focus:ring-white/50"
-                >
-                  <selectedProvider.icon className="text-white w-3 h-3" />
-                  <span className="sr-only">{t("search.search")}</span>
-                </Listbox.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
+      <div className="text-white flex flex-col p-4 w-full">
+        <div className="flex justify-end mb-4 flex-wrap">
+
+
+          {user['Role'] === 1 &&
+            <>
+              <button
+                className="py-1 gap-1.5 flex justify-center items-center px-2 me-2 mb-2 text-xs font-small text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                onClick={handleOpenModal}
               >
-                <Listbox.Options
-                  className="absolute right-0 z-10 mt-1 origin-top-right rounded-md
-                  bg-theme-100 dark:bg-theme-600 shadow-lg
-                  ring-1 ring-black ring-opacity-5 focus:outline-none"
-                >
-                  <div className="flex flex-col">
-                    {availableProviderIds.map((providerId) => {
-                      const p = searchProviders[providerId];
-                      return (
-                        <Listbox.Option key={providerId} value={p} as={Fragment}>
-                          {({ active }) => (
-                            <li
-                              className={classNames(
-                                "rounded-md cursor-pointer",
-                                active ? "bg-theme-600/10 dark:bg-white/10 dark:text-gray-900" : "dark:text-gray-100",
-                              )}
-                            >
-                              <p.icon className="h-4 w-4 mx-4 my-2" />
-                            </li>
-                          )}
-                        </Listbox.Option>
-                      );
-                    })}
-                  </div>
-                </Listbox.Options>
-              </Transition>
-            </Listbox>
+                Add User
+                <IoPersonAddSharp size={12} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowUsersModal(true)}
+                className="py-1 px-2 flex items-center justify-center gap-1.5 me-2 mb-2 text-xs font-small text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              >
+                View User
+                <LiaUserEditSolid size={14} />
+              </button>
+            </>
+          }
 
-            {searchSuggestions[1]?.length > 0 && (
-              <Combobox.Options className="mt-1 rounded-md bg-theme-50 dark:bg-theme-800 border border-theme-300 dark:border-theme-200/30 cursor-pointer shadow-lg">
-                <div className="p-1 bg-white/50 dark:bg-white/10 text-theme-900/90 dark:text-white/90 text-xs">
-                  <Combobox.Option key={query} value={query} />
-                  {searchSuggestions[1].map((suggestion) => (
-                    <Combobox.Option
-                      key={suggestion}
-                      value={suggestion}
-                      onClick={() => {
-                        doSearch(suggestion);
-                      }}
-                      className="flex w-full"
-                    >
-                      {({ active }) => {
-                        if (active) currentSuggestion = suggestion;
-                        return (
-                          <div
-                            className={classNames(
-                              "px-2 py-1 rounded-md w-full flex-nowrap",
-                              active ? "bg-theme-300/20 dark:bg-white/10" : "",
-                            )}
-                          >
-                            <span className="whitespace-pre">{suggestion.indexOf(query) === 0 ? query : ""}</span>
-                            <span className="mr-4 whitespace-pre opacity-50">
-                              {suggestion.indexOf(query) === 0 ? suggestion.substring(query.length) : suggestion}
-                            </span>
-                          </div>
-                        );
-                      }}
-                    </Combobox.Option>
-                  ))}
-                </div>
-              </Combobox.Options>
-            )}
-          </Combobox>
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+              router.replace("/");
+            }}
+            className="py-1 px-2 me-2 flex  gap-1.5 items-center justify-center mb-2 text-xs font-small text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            Logout
+            <AiOutlineLogout size={13} />
+          </button>
         </div>
-      </Raw>
-    </ContainerForm> */}
 
-      <div className="flex justify-between gap-2">
-      <AddUserButton/>
-        <button
-          onClick={() => {
-            logout();
-            router.replace("/");
-          }}
-          className="block  text-left text-white   bg-gray-600 px-4 py-1 rounded-md "
-        >
-          Logout
-        </button>
+        {/* Add/Edit User Modal */}
+        <Transition appear show={showModal} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={handleCloseModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-white">
+                      {editingUser ? "Edit User" : "Add User"}
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <form onSubmit={handleAddUser}>
+                        <div className="mb-4 text-white">
+                          <label htmlFor="username" className="block text-sm font-medium mb-2">
+                            Username
+                          </label>
+                          <input
+                            type="text"
+                            id="username"
+                            className="w-full p-3 text-white rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                        <div className="mb-4 text-white">
+                          <label htmlFor="email" className="block text-sm font-medium mb-2">
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            className="w-full p-3 text-white rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                        <div className="mb-4 text-white">
+                          <label htmlFor="role" className="block text-sm font-medium mb-2">
+                            Role
+                          </label>
+                          <select
+                            id="role"
+                            className="w-full p-3 text-white rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500"
+                            value={formData.role}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="0">User</option>
+                            <option value="1">Admin</option>
+                          </select>
+                        </div>
+                        <div className="mb-6">
+                          <label htmlFor="password" className="block text-sm font-medium mb-2">
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            id="password"
+                            className="w-full p-3 text-white rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          >
+                            {editingUser ? "Save Changes" : "Add User"}
+                          </button>
+                          <button
+                            type="button"
+                            className="ml-2 inline-flex justify-center rounded-md border border-gray-300 bg-gray-500 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={handleCloseModal}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+
+        {/* View Users Modal */}
+        <Transition appear show={showUsersModal} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={() => setShowUsersModal(false)}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-white">
+                      User List
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <table className="min-w-full bg-gray-800">
+                        <thead>
+                          <tr>
+                            <th className="py-2 text-white">ID</th>
+                            <th className="py-2 text-white">Username</th>
+                            <th className="py-2 text-white">Email</th>
+                            <th className="py-2 text-white">Role</th>
+                            <th className="py-2 text-white">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {users.map((user) => (
+                            <tr key={user.id}>
+                              <td className="py-2 text-white">{user.id}</td>
+                              <td className="py-2 text-white">{user.username}</td>
+                              <td className="py-2 text-white">{user.email}</td>
+                              <td className="py-2 text-white">{user.Role == 0 ? "User" : "Admin"}</td>
+                              <td className="py-2 text-white">
+                                <button
+                                  className="bg-blue-500 text-white px-2 py-1 rounded-lg mr-2"
+                                  onClick={() => handleEditUser(user)}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="bg-red-500 text-white px-2 py-1 rounded-lg"
+                                  onClick={() => handleDeleteUser(user)}
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
-    
     </>
   );
 }

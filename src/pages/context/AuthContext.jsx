@@ -19,12 +19,15 @@ export const AuthContextProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = useCallback( async (email, password) => {
+  const login = ( async (email, password) => {
     try {
       const res = await axios.post('http://192.168.123.186:8080/auth', { email, password });
 
-      if (res.data) {
-        const loggedInUser = { email };
+      console.log("this is response data",await res.data.user);
+      const userDataForSession = await res.data.user;
+
+      if (res) {
+        const loggedInUser = res.data.user ;
         sessionStorage.setItem('user', JSON.stringify(loggedInUser));
         setUser(loggedInUser);
         router.replace('/'); // Navigate to dashboard upon successful login
@@ -36,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
       console.error('Error:', error.response ? error.response.data : error.message);
       return false;
     }
-  }, []);
+  });
 
 
 
