@@ -189,6 +189,7 @@ export default function Search({ options }) {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    // console.log("Event check" , e , {id, value})
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
@@ -197,7 +198,7 @@ export default function Search({ options }) {
 
   const handleAddUser = useCallback(async (e) => {
     e.preventDefault();
-
+  
     if (editingUser) {
       try {
         const response = await fetch(`http://192.168.123.186:8080/update/${editingUser.id}`, {
@@ -208,55 +209,72 @@ export default function Search({ options }) {
           body: JSON.stringify(formData),
         });
 
+        // console.log("After hitting the API Form data in edit", formData);
+  
         if (!response.ok) {
           throw new Error(`Failed to update user: ${response.statusText}`);
         }
-
+  
         const updatedUser = await response.json();
-
+  
         // Create a new user array with the updated user
-        const updatedUsers = [...users.filter(user => user.id !== editingUser.id), updatedUser];
+        const updatedUsers = users.map((user) =>
+          user.id === editingUser.id ? updatedUser : user
+        );
         setUsers(updatedUsers);
-
+  
         setEditingUser(null);
+        setShowUsersModal(true);
       } catch (error) {
         console.error("Failed to update user", error);
       }
     } else {
       try {
-        const { id, ...newUserFormData } = formData; // Remove 'id' from formData
-        console.log('Sending new user data:', newUserFormData); // Log the data being sent
-        console.log('Sending new user data:', formData); // Log the data being sent
-  
-        const response = await fetch('http://192.168.123.186:8080/addinguser', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newUserFormData),
-        });
-  
-        if (!response.ok) {
-          throw new Error(`Failed to add user: ${response.statusText}`);
+        // Check if the user already exists
+        const existingUser = users.find(user => user.email === formData.email);
+   
+        if (existingUser) {
+           alert('User already exists');
+        } else {
+           // Proceed to add the new user
+           const { id, ...newUserFormData } = formData; // Remove 'id' from formData
+           console.log('Sending new user data:', newUserFormData); // Log the data being sent
+   
+           const response = await fetch('http://192.168.123.186:8080/addinguser', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUserFormData),
+           });
+   
+           if (!response.ok) {
+            throw new Error(`Failed to add user: ${response.statusText}`);
+           }
+   
+           const responseText = await response.text();
+           console.log(responseText); // Log the server's plain text response
+   
+           // Optionally, refetch users to update the list
+           await fetchUsers();
+   
+           // Optionally, show a success message or handle the response as needed
+           alert(responseText);
         }
-  
-        const responseText = await response.text();
-        console.log(responseText); // Log the server's plain text response
-        
-        await fetchUsers(); 
-        alert(responseText);
-      } catch (error) {
+       } catch (error) {
         console.error("Failed to add user", error);
-      }
+       }
     }
-
+  
     handleCloseModal();
-  }, [formData, editingUser, users]);
+  }, [formData, editingUser, users, fetchUsers, handleCloseModal]);
+  
 
   const handleEditUser = (user) => {
     setEditingUser(user);
     setFormData(user);
     setShowModal(true);
+    setShowUsersModal(false);
   };
 
   const handleDeleteUser = async (user) => {
@@ -306,7 +324,6 @@ export default function Search({ options }) {
 
   const sessionLoggedUser = sessionStorage.getItem('user');
   const user = JSON.parse(sessionLoggedUser);
-
 
   return (
     <>
@@ -416,17 +433,19 @@ export default function Search({ options }) {
                             onChange={handleChange}
                             required
                           >
+
                             <option value="0">User</option>
                             <option value="1">Admin</option>
                           </select>
                         </div>
                         <div className="mb-6">
-                          <label htmlFor="password" className="block text-sm font-medium mb-2">
+                          <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
                             Password
                           </label>
                           <input
                             type="password"
                             id="password"
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                             className="w-full p-3 text-white rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500"
                             value={formData.password}
                             onChange={handleChange}
@@ -504,7 +523,7 @@ export default function Search({ options }) {
                               <td className="py-2 text-white">{user.id}</td>
                               <td className="py-2 text-white">{user.username}</td>
                               <td className="py-2 text-white">{user.email}</td>
-                              <td className="py-2 text-white">{user.Role == 0 ? "User" : "Admin"}</td>
+                              <td className="py-2 text-white">{user.Role === 0 ? "User" : "Admin"}</td>
                               <td className="py-2 text-white">
                                 <button
                                   className="bg-blue-500 text-white px-2 py-1 rounded-lg mr-2"
